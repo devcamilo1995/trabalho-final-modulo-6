@@ -23,7 +23,7 @@ public class ConsumerService {
     private final EmailService emailService;
 
     @KafkaListener(                                           // Ver como o grupo vai chamar os tópicos
-            topics = "${kafka.topic.string}",
+            topics = "${kafka.topic.geral}",
             groupId = "${kafka.group-id}",
             containerFactory = "listenerContainerFactory"
     )
@@ -32,7 +32,7 @@ public class ConsumerService {
                         @Header(KafkaHeaders.OFFSET) Long offset) throws JsonProcessingException, MessagingException {
         EmailDTO emailDTO = objectMapper.readValue(mensagem, EmailDTO.class);
         emailService.enviarEmailTemplate(emailDTO);
-        log.info("Email enviado");                     // Ver como enviar esse log
+        log.info("Email enviado");
     }
 
 

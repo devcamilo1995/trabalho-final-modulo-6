@@ -20,21 +20,6 @@ import java.time.format.DateTimeFormatter;
 public class LogService {
     private final Producer producer;
 
-
-    public void mensagemComSucesso() throws JsonProcessingException {
-        LogDTO logDTO = new LogDTO();
-        logDTO.setLog("Mensagem lida com sucesso");
-        logDTO.setHorario(LocalDateTime.now());
-        producer.sendtoLog(logDTO);
-    }
-
-    public void mensagemSemSucesso() throws JsonProcessingException {
-        LogDTO logDTO = new LogDTO();
-        logDTO.setLog("Mensagem não lida");
-        logDTO.setHorario(LocalDateTime.now());
-        producer.sendtoLog(logDTO);
-    }
-
     public void emailComSucesso() throws JsonProcessingException {
         LogDTO logDTO = new LogDTO();
         logDTO.setLog("Email enviado");

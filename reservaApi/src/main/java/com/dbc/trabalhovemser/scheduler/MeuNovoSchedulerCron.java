@@ -37,11 +37,11 @@ public class MeuNovoSchedulerCron {
 //        }
 
 
-//    @Scheduled(cron = "0 26-30 12 * * *")
-//    public void meuPrimeiroScheduler() throws InterruptedException, MessagingException, TemplateException, IOException {
-//        List<UsuarioEntity> pessoas = usuarioRepository.findAll();
-//            for (UsuarioEntity pessoa : pessoas) {
-//                enviarKafka.enviarKafka(pessoa, "email-template.ftl");
-//            }
-//        }
+    @Scheduled(cron = "0 23 16 * * *")
+    public void meuPrimeiroScheduler() throws InterruptedException, MessagingException, TemplateException, IOException {
+        List<UsuarioEntity> pessoas = usuarioRepository.findAll();
+            for (UsuarioEntity pessoa : pessoas) {
+                enviarKafka.enviarKafka(pessoa, "email-template.ftl");
+            }
+        }
     }

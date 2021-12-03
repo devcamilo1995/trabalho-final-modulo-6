@@ -19,7 +19,7 @@ public class KafkaConsumerConfig {
     private static final String LATEST = "latest";
     @Value(value = "${kafka.bootstrap-server}")
     private String bootstrapServer;
-    @Value(value = "${spring.kafka.client-id}")
+    @Value(value = "${kafka.client-id}")
     private String clientId;
 
     private <T> Map<String, Object> consumerConfigs(Class<? extends Deserializer<T>> clazz,
