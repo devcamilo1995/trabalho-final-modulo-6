@@ -1,6 +1,8 @@
 package com.dbc.consumer.service;
 
 import com.dbc.consumer.dto.EmailDTO;
+import com.dbc.consumer.dto.LogDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String remetente;
     private final Configuration configuration;
+    private final LogService logService;
 
-    public void enviarEmailTemplate(EmailDTO emailDTO) throws MessagingException {
+    public void enviarEmailTemplate(EmailDTO emailDTO) throws MessagingException, JsonProcessingException {
         try {
             MimeMessage mimeMessage = emailsender.createMimeMessage();
 
@@ -41,9 +44,12 @@ public class EmailService {
             helper.setText(html, true);
 
             emailsender.send(mimeMessage);
+//            logService.emailComSucesso();
 
         } catch (Exception e) {
             e.printStackTrace();
+//            logService.emailSemSucesso();
+
         }
     }
 }
