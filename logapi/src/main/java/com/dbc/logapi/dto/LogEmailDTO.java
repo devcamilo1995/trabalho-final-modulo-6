@@ -1,16 +1,16 @@
-package com.dbc.logapi.entity;
+package com.dbc.logapi.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Document(collection = "logEmail")
-public class LogEmailEntity {
+@AllArgsConstructor
+public class LogEmailDTO {
     @NotEmpty
     private String destinatario;
     @NotEmpty
@@ -19,5 +19,4 @@ public class LogEmailEntity {
     private String assunto;
 
     private LocalDateTime data;
-
 }
