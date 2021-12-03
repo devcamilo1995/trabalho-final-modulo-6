@@ -1,6 +1,8 @@
 package com.dbc.consumer.service;
 
 import com.dbc.consumer.dto.EmailDTO;
+import com.dbc.consumer.dto.LogDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -24,21 +26,17 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String remetente;
     private final Configuration configuration;
+    private final LogService logService;
+
+
 
     public EmailDTO enviaEmail(EmailDTO enviaEmailDTO) throws MessagingException, IOException, TemplateException, TemplateException {
         MimeMessage mimeMessage = emailsender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setFrom(remetente);
         helper.setTo(enviaEmailDTO.getDestinatario());
-        helper.setSubject("Usuario cadastrado");
-        Template template = configuration.getTemplate("email-template.ftl");
-        Map<String, Object> dados = new HashMap<>();
-        dados.put("Destinatario", enviaEmailDTO.getDestinatario());
-        dados.put("Assunto", enviaEmailDTO.getAssunto());
-        dados.put("Texto", enviaEmailDTO.getTexto());
-
-        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
-        helper.setText(html, true);
+        helper.setSubject(enviaEmailDTO.getAssunto());
+        helper.setText(enviaEmailDTO.getTexto(), true);
         emailsender.send(mimeMessage);
         return enviaEmailDTO;
     }
