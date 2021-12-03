@@ -44,11 +44,11 @@ public class EmailService {
             helper.setText(html, true);
 
             emailsender.send(mimeMessage);
-//            logService.emailComSucesso();
+            logService.emailComSucesso();
 
         } catch (Exception e) {
             e.printStackTrace();
-//            logService.emailSemSucesso();
+            logService.emailSemSucesso();
 
         }
     }
