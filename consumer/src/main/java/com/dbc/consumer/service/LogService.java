@@ -22,15 +22,17 @@ public class LogService {
 
     public void emailComSucesso() throws JsonProcessingException {
         LogDTO logDTO = new LogDTO();
-        logDTO.setLog("Email enviado");
-        logDTO.setHorario(LocalDateTime.now());
+        logDTO.setDescricao("Email enviado");
+        logDTO.setTipo("Email");
+        logDTO.setDataLog(LocalDateTime.now());
         producer.sendtoLog(logDTO);
     }
 
     public void emailSemSucesso() throws JsonProcessingException {
         LogDTO logDTO = new LogDTO();
-        logDTO.setLog("Email não enviado");
-        logDTO.setHorario(LocalDateTime.now());
+        logDTO.setDescricao("Email não enviado");
+        logDTO.setTipo("Email");
+        logDTO.setDataLog(LocalDateTime.now());
         producer.sendtoLog(logDTO);
     }
 

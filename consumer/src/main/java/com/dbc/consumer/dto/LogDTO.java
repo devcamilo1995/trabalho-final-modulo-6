@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class LogDTO {
 
-    private String log;
-    private LocalDateTime horario;
+    private String descricao;
+    private String tipo;
+    private LocalDateTime dataLog;
 }
