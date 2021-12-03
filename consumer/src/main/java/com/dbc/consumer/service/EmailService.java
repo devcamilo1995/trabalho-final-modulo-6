@@ -29,15 +29,21 @@ public class EmailService {
     private final LogService logService;
 
 
-
     public EmailDTO enviaEmail(EmailDTO enviaEmailDTO) throws MessagingException, IOException, TemplateException, TemplateException {
-        MimeMessage mimeMessage = emailsender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setFrom(remetente);
-        helper.setTo(enviaEmailDTO.getDestinatario());
-        helper.setSubject(enviaEmailDTO.getAssunto());
-        helper.setText(enviaEmailDTO.getTexto(), true);
-        emailsender.send(mimeMessage);
+        try {
+            MimeMessage mimeMessage = emailsender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setFrom(remetente);
+            helper.setTo(enviaEmailDTO.getDestinatario());
+            helper.setSubject(enviaEmailDTO.getAssunto());
+            helper.setText(enviaEmailDTO.getTexto(), true);
+            emailsender.send(mimeMessage);
+            logService.emailComSucesso();
+            return enviaEmailDTO;
+        } catch (Exception e) {
+            e.printStackTrace();
+            logService.emailSemSucesso();
+        }
         return enviaEmailDTO;
     }
 }
