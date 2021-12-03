@@ -3,6 +3,7 @@ package com.dbc.consumer.service;
 import com.dbc.consumer.dto.EmailDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,6 +14,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 
 @Component
 @Slf4j
@@ -23,15 +25,15 @@ public class ConsumerService {
     private final EmailService emailService;
 
     @KafkaListener(                                           // Ver como o grupo vai chamar os tópicos
-            topics = "${kafka.topic.string}",
+            topics = "${kafka.topic.geral}",
             groupId = "${kafka.group-id}",
             containerFactory = "listenerContainerFactory"
     )
     public void consume(@Payload String mensagem,
                         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
-                        @Header(KafkaHeaders.OFFSET) Long offset) throws JsonProcessingException, MessagingException {
+                        @Header(KafkaHeaders.OFFSET) Long offset) throws IOException, MessagingException, TemplateException {
         EmailDTO emailDTO = objectMapper.readValue(mensagem, EmailDTO.class);
-        emailService.enviarEmailTemplate(emailDTO);
+        emailService.enviaEmail(emailDTO);
         log.info("Email enviado");                     // Ver como enviar esse log
     }
 

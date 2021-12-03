@@ -1,10 +1,9 @@
 package com.dbc.trabalhovemser.service;
 
 
-import com.dbc.trabalhovemser.dto.HoteisDTO;
-import com.dbc.trabalhovemser.dto.QuartosDTO;
-import com.dbc.trabalhovemser.dto.ReservaDTO;
-import com.dbc.trabalhovemser.dto.UsuarioDTO;
+import com.dbc.trabalhovemser.dto.*;
+import com.dbc.trabalhovemser.entity.UsuarioEntity;
+import com.dbc.trabalhovemser.kafka.Producer;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -23,7 +22,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class EmailService {
-
+    private final Producer producer;
     private final JavaMailSender emailSender;
     @Value("${spring.mail.username}")
     private String remetente;
@@ -64,6 +63,20 @@ public class EmailService {
         helper.setText(html, true);
         emailSender.send(mimeMessage);
         return reservaDTO;
+    }
+
+    public void enviarKafka(UsuarioEntity usuarioEntity, String templateHtml) throws MessagingException, IOException, TemplateException {
+        Template template = configuration.getTemplate(templateHtml);
+        Map<String, Object> dados = new HashMap<>();
+        dados.put("nome", usuarioEntity.getNome());
+
+        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
+
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setAssunto("Envio de mensagem!");
+        emailDTO.setDestinatario(usuarioEntity.getEmail());
+        emailDTO.setTexto(html);
+        producer.sendMessageDTO(emailDTO);
     }
 
 }
