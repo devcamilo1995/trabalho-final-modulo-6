@@ -35,14 +35,6 @@ public class EmailService {
             helper.setFrom(remetente);
             helper.setTo(emailDTO.getDestinatario());
             helper.setSubject(emailDTO.getAssunto());
-
-            Template template = configuration.getTemplate("email-template.html");
-            Map<String, Object> dados = new HashMap<>();
-            dados.put("mensagem", emailDTO.getTexto());
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
-
-            helper.setText(html, true);
-
             emailsender.send(mimeMessage);
             logService.emailComSucesso();
 
