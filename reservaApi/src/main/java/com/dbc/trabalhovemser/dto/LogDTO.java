@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 public class LogDTO {
     private String descricao;
     private String tipo;
-    private LocalDateTime datalog;
+    private LocalDateTime dataLog;
 }

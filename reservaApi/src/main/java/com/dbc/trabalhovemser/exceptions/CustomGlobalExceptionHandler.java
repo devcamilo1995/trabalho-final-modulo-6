@@ -52,7 +52,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         body.put("errors", errors);
 
         LogDTO logDTO=new LogDTO();
-        logDTO.setDatalog(LocalDateTime.now());
+        logDTO.setDataLog(LocalDateTime.now());
         logDTO.setTipo("MethodArgumentNotValidException");
         try {
             logDTO.setDescricao(objectMapper.writeValueAsString(errors));
@@ -68,7 +68,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleException(ConstraintViolationException exception,
                                                   HttpServletRequest request) {
         LogDTO logDTO=new LogDTO();
-        logDTO.setDatalog(LocalDateTime.now());
+        logDTO.setDataLog(LocalDateTime.now());
         logDTO.setDescricao(exception.getMessage());
         logDTO.setTipo("ConstraintViolationException");
         try {
@@ -90,7 +90,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleException(RegraDeNegocioException exception,
                                                   HttpServletRequest request) {
         LogDTO logDTO=new LogDTO();
-        logDTO.setDatalog(LocalDateTime.now());
+        logDTO.setDataLog(LocalDateTime.now());
         logDTO.setDescricao(exception.getMessage());
         logDTO.setTipo("RegraDeNegocioException");
         try {
@@ -110,7 +110,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleException(SignatureException exception,
                                                   HttpServletRequest request) {
         LogDTO logDTO=new LogDTO();
-        logDTO.setDatalog(LocalDateTime.now());
+        logDTO.setDataLog(LocalDateTime.now());
         logDTO.setDescricao(exception.getMessage());
         logDTO.setTipo("SignatureException");
         try {
