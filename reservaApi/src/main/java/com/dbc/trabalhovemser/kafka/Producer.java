@@ -3,6 +3,7 @@ package com.dbc.trabalhovemser.kafka;
 
 
 import com.dbc.trabalhovemser.dto.EmailDTO;
+import com.dbc.trabalhovemser.dto.LogDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,9 @@ public class Producer {
 
     @Value(value = "${kafka.topic.geral}")
     private String topicoGeral;
+
+    @Value(value = "${kafka.topic.log}")
+    private String topicoLOG;
 
     private void send(String mensagem, String topico) {
         Message<String> message = MessageBuilder.withPayload(mensagem)
@@ -57,4 +61,8 @@ public class Producer {
     }
 
 
+    public void sendLog(LogDTO logDTO) throws JsonProcessingException {
+        String payload = objectMapper.writeValueAsString(logDTO);
+        send(payload, topicoLOG);
+    }
 }

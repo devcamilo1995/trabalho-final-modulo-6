@@ -1,7 +1,9 @@
 package com.dbc.logapi.service;
 
 import com.dbc.logapi.entity.LogEmailEntity;
+import com.dbc.logapi.entity.LogEntity;
 import com.dbc.logapi.repository.LogEmailRepository;
+import com.dbc.logapi.repository.LogRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ public class ConsumerService {
     private final KafkaTemplate<String, String> stringKafkaTemplate;
     private final ObjectMapper objectMapper;
     private final LogEmailRepository logEmailRepository;
+    private final LogRepository logRepository;
 
     @KafkaListener(
             topics = {"${kafka.topic.string}"},
@@ -28,10 +31,19 @@ public class ConsumerService {
         log.info("MENSAGEM LIDA: '{}', CHAVE: '{}', OFFSET: '{}'", new Object[]{mensagem, key, offset});
         this.logEmailRepository.save(this.objectMapper.readValue(mensagem, LogEmailEntity.class));
     }
-
-    public ConsumerService(final KafkaTemplate<String, String> stringKafkaTemplate, final ObjectMapper objectMapper, LogEmailRepository logEmailRepository) {
+    @KafkaListener(
+            topics = {"${kafka.topic.log}"},
+            groupId = "${kafka.group-id}",
+            containerFactory = "listenerContainerFactory"
+    )
+    public void consumelog(@Payload String mensagem, @Header("kafka_receivedMessageKey") String key, @Header("kafka_offset") Long offset) throws JsonProcessingException {
+        log.info("MENSAGEM LIDA: '{}', CHAVE: '{}', OFFSET: '{}'", new Object[]{mensagem, key, offset});
+        this.logRepository.save(this.objectMapper.readValue(mensagem, LogEntity.class));
+    }
+    public ConsumerService(final KafkaTemplate<String, String> stringKafkaTemplate, final ObjectMapper objectMapper, LogEmailRepository logEmailRepository, LogRepository logRepository) {
         this.stringKafkaTemplate = stringKafkaTemplate;
         this.objectMapper = objectMapper;
         this.logEmailRepository = logEmailRepository;
+        this.logRepository = logRepository;
     }
 }
