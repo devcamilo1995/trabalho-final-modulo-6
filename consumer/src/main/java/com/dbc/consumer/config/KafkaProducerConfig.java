@@ -1,4 +1,5 @@
-package com.dbc.trabalhovemser.config;
+package com.dbc.consumer.config;
+
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 @Configuration
 public class KafkaProducerConfig {
-
     @Value(value = "${kafka.bootstrap-server}")
     private String bootstrapServer;
 
@@ -29,10 +29,9 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(propriedades);
     }
 
-
-
     @Bean
     public KafkaTemplate<String, String> stringKafkaTemplate() {
         return new KafkaTemplate<>(genericProducerFactory(StringSerializer.class));
     }
 }
+
