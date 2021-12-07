@@ -17,8 +17,8 @@ public class Rotinas {
     private final LogRepository logRepository;
 
 
-    //@Scheduled(cron = "0 0 * * * *")
-    @Scheduled(fixedDelay = 30000)
+    @Scheduled(cron = "0 0 * * * *")
+//    @Scheduled(fixedDelay = 30000)
     public void deletarLogsScheduler() {
         List<LogEntity> logs = logRepository.findBydataLogLessThan(LocalDateTime.now().minusYears(1));
         log.info("Total de logs com mais de 1 ano {}", logs.stream().count());

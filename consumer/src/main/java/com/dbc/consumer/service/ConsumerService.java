@@ -34,7 +34,11 @@ public class ConsumerService {
                         @Header(KafkaHeaders.OFFSET) Long offset) throws IOException, MessagingException, TemplateException {
         EmailDTO emailDTO = objectMapper.readValue(mensagem, EmailDTO.class);
         emailService.enviaEmail(emailDTO);
+<<<<<<< HEAD
         log.info("Tópico Consumido");
+=======
+        log.info("Email enviado");
+>>>>>>> origin/main
     }
 
 

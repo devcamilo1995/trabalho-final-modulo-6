@@ -1,7 +1,9 @@
 package com.dbc.logapi.controller;
 
+import com.dbc.logapi.dto.LogDTO;
 import com.dbc.logapi.entity.LogEntity;
 import com.dbc.logapi.repository.LogRepository;
+import com.dbc.logapi.service.LogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -13,15 +15,17 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/logEmail")
+@RequestMapping("/log")
 @RequiredArgsConstructor
 @Slf4j
 public class LogReservaController {
-    private  final LogRepository logRepository;
+    private  final LogService logService;
 
     @GetMapping
-    public List<LogEntity> listAllLog(){
-        return logRepository.findAll();
+    public List<LogDTO>  listAllLog(){
+        return logService.List();
     }
+
+
 
 }

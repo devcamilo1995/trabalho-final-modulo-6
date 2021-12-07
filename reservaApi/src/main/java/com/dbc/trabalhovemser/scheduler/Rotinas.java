@@ -24,8 +24,8 @@ public class Rotinas {
 
 
 
-//    @Scheduled(cron = "0 08-09 17 * * *")
-    @Scheduled(fixedDelay = 300000)
+    @Scheduled(cron = "0 08-09 17 * * *")
+//    @Scheduled(fixedDelay = 300000)
     public void meuPrimeiroScheduler() throws InterruptedException, MessagingException, TemplateException, IOException {
         List<UsuarioEntity> pessoas = usuarioRepository.findAll();
             for (UsuarioEntity pessoa : pessoas) {
