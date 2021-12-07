@@ -24,7 +24,7 @@ public class ConsumerService {
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
 
-    @KafkaListener(                                           // Ver como o grupo vai chamar os tópicos
+    @KafkaListener(
             topics = "${kafka.topic.geral}",
             groupId = "${kafka.group-id}",
             containerFactory = "listenerContainerFactory"
@@ -34,7 +34,7 @@ public class ConsumerService {
                         @Header(KafkaHeaders.OFFSET) Long offset) throws IOException, MessagingException, TemplateException {
         EmailDTO emailDTO = objectMapper.readValue(mensagem, EmailDTO.class);
         emailService.enviaEmail(emailDTO);
-        log.info("Email enviado");                     // Ver como enviar esse log
+        log.info("Tópico Consumido");
     }
 
 
